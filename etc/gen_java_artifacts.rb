@@ -1,16 +1,14 @@
 #!/usr/bin/env ruby
 
-INPUT_FILENAME = ARGV[0] || 'iso3166.tabbed'
+require 'iconv'
 
-BASENAME=INPUT_FILENAME.chomp(File.extname(INPUT_FILENAME))
+INPUT_FILENAME = ARGV[0] || 'iso3166.colonized'
 
 COUNTRIES = []
 
 File.open(INPUT_FILENAME) { |file|
   file.each { |line|
-    a = line.split("\t").map {|s| s.strip }
-    a[0] = $~[1].strip if a[0] =~ /^"(.*)"$/
-    COUNTRIES << a
+    COUNTRIES << line.split('|').map {|s| s.strip }
   }
 }
 
@@ -19,20 +17,18 @@ HEADER = COUNTRIES.shift
 
 SORTED_BY_ALPHA2 = COUNTRIES.sort { |a, b| a[1] <=> b[1] }
 
-File.open("#{BASENAME}.colonized", "w") { |out|
-  # Print the header
-  out.puts HEADER.join(':')
-
-  SORTED_BY_ALPHA2.each { |country|
-    out.puts country.join(':')
-  }
-}
-
-File.open("countries.properties", "w", :encoding => 'ISO-8859-1') { |out|
+File.open("countries.properties-raw", "w", :encoding => 'ISO-8859-1') { |out|
   SORTED_BY_ALPHA2.each { |country|
     out.puts "#{country[1]}.name=#{country[0]}"
   }
 }
+
+NATIVE2ASCII=`which native2ascii`
+if NATIVE2ASCII
+  `native2ascii -encoding iso-8859-1 countries.properties-raw countries.properties`
+else
+  puts "native2ascii not found! Convert countries.properties by hand."
+end
 
 File.open("Country.java", "w") { |out|
   out.puts <<END
