@@ -1,7 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'iconv'
-
 INPUT_FILENAME = ARGV[0] || 'iso3166.colonized'
 
 COUNTRIES = []
@@ -22,6 +20,8 @@ File.open("countries.properties-raw", "w", :encoding => 'ISO-8859-1') { |out|
     out.puts "#{country[1]}.name=#{country[0]}"
   }
 }
+
+# TODO Figure out a way to do the escaping ourselves
 
 NATIVE2ASCII=`which native2ascii`
 if NATIVE2ASCII
