@@ -5,7 +5,7 @@
   <groupId>ccdb</groupId>
   <artifactId>ccdb</artifactId>
   <name>Country Code Database</name>
-  <version>0.1-SNAPSHOT</version>  
+  <version>0.1</version>  
 
   <licenses>
     <license>
