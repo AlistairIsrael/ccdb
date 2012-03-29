@@ -5,7 +5,7 @@
   <groupId>ccdb</groupId>
   <artifactId>ccdb</artifactId>
   <name>Country Code Database</name>
-  <version>0.1</version>  
+  <version>0.1</version>
 
   <licenses>
     <license>
@@ -27,5 +27,21 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <!-- Java 6 -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3.2</version>
+        <configuration>
+          <compilerVersion>6.0</compilerVersion>
+          <source>1.6</source>
+          <target>1.6</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>
